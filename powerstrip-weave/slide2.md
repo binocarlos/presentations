@@ -1,5 +1,3 @@
-## test slide
+## powerstrip architecture
 
-This is some markdown for a slide
-
-I want an image in there
+![Powerstrip](slides/images/powerstrip.png "Powerstrip")
