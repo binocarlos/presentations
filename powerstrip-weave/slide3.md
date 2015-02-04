@@ -1,6 +1,6 @@
-## docker run
+### docker run
 
-The steps of a docker run request:
+The steps of a (simple) docker run request:
 
 ```bash
 $ docker run ubuntu echo hello

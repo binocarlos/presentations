@@ -62,6 +62,36 @@ adapters:
   weave: http://weave/extension
 ```
 
+#### adapters are containers
+The adapters themselves are containers that expose a HTTP endpoint.
+
+Here is the command to run the **powerstrip-debug** container:
+
+```bash
+$ docker run -d \
+  --name powerstrip-debug \
+  --expose 80 \
+  binocarlos/powerstrip-debug
+```
+
+#### powerstrip is a container
+Powerstrip itself is a container.
+
+It can *link* to adapters that are named in the config file.
+
+Here is the command to run the **powerstrip-debug** container:
+
+```bash
+$ docker run -d \
+  --name powerstrip \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v ~/powerstrip-demo/adapters.yml:/etc/powerstrip/adapters.yml \
+  --link powerstrip-weave:weave \
+  --link powerstrip-debug:debug \
+  -p 2375:2375 \
+  clusterhq/powerstrip
+```
+
 #### weave
 
 weave is a networking tool for docker.
@@ -80,7 +110,7 @@ Everyone web server wants port 80.
 
  * rugby scrum image
 
-#### weave
+#### virtual overlay network
 
 To solve these problems, weave creates a "virtual overlay network".
 
@@ -157,13 +187,6 @@ The only way to do this is to "hijack" the entrypoint of a container and change 
 
  * hijack
 
-#### load image entrypoint
-We need to preserve the original entrypoint.
-
-To do this we ask docker for the image information using `GET /images/(imagename)`
-
-We then change the entrypoint to wait-for-weave and make the cmd the original entrypoint plus container args.
-
 #### example
 
 ```bash
@@ -178,12 +201,12 @@ Entrypoint of image `myimage` is `echo`
  * final entrypoint = wait-for-weave
  * final arguments = echo hello
 
-#### accessing wait-for-weave
+#### add volume
 If the entrypoint now points to wait-for-weave - the container needs access that binary somehow.
 
 To do this we mount a volume that gives access to wait-for-weave.
 
-#### pre-hook - /containers/create
+#### pre-hook
 This all comes together in a powerstrip-weave PRE-HOOK for requests to:
 
 ```

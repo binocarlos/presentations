@@ -1,4 +1,4 @@
-## powerstrip architecture
+### powerstrip architecture
 
  * HTTP proxy lisening on `tcp://127.0.0.1:2375`.
 
