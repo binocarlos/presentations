@@ -2,4 +2,4 @@
 
 The problem is that weave "wraps" the docker CLI.
 
-![Cling film wrap](slides/images/clingfilmwrap.jpg "Cling film wrap")
+![Cling film wrap](images/clingfilmwrap.jpg "Cling film wrap")

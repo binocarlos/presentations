@@ -6,4 +6,4 @@ This is much neater than port mapping.
 
 All shapes an sizes can co-exist on the same host.
 
-![Tidy](slides/images/tidy.jpg "Tidy")
+![Tidy](images/tidy.jpg "Tidy")

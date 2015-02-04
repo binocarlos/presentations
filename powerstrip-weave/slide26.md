@@ -1,3 +1,3 @@
 #### pre-hook
 
-![ps-create](slides/images/ps-create.png "ps-create")
+![ps-create](images/ps-create.png "ps-create")
