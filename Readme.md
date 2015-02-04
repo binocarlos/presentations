@@ -33,7 +33,7 @@ To include an image on a slide - you point at the `slides/images` folder - in th
 ![weave run](slides/images/ps-weave.png "weave run")
 ```
 
-To trigger synta highlighting - the first slide must be non-html (a PR would be great to fix this!).
+To trigger syntax highlighting - the first slide must be non-html (a PR would be great to fix this!).
 
 For example - the first slide of the `powerstrip-weave` presentation is:
 
