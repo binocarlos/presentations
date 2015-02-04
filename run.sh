@@ -11,6 +11,7 @@ cmd-present(){
     --name presenter \
     -v /srv/projects/presentations/$presentation/index.html:/app/reveal.js/index.html \
     -v /srv/projects/presentations/$presentation:/app/reveal.js/slides \
+    -v /srv/projects/presentations/$presentation/images:/app/reveal.js/images \
     binocarlos/presentations
 }
 

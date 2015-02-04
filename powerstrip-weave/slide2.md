@@ -1,3 +1,3 @@
 ### powerstrip architecture
 
-![Powerstrip](slides/images/powerstrip.png "Powerstrip")
+![Powerstrip](images/powerstrip.png "Powerstrip")
