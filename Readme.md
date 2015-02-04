@@ -33,6 +33,32 @@ To include an image on a slide - you point at the `slides/images` folder - in th
 ![weave run](slides/images/ps-weave.png "weave run")
 ```
 
+To trigger synta highlighting - the first slide must be non-html (a PR would be great to fix this!).
+
+For example - the first slide of the `powerstrip-weave` presentation is:
+
+```html
+<section>
+  <h3>powerstrip-weave</h3>
+  <p>
+    <small>extending docker with powerstrip adapters</small>
+  </p>
+  <p>
+  <pre><code>
+if(powerstrip){
+
+// I can haz multiple extensions?
+var adapters = ["flocker", "weave"];
+docker.extend(adapters);
+
+}
+  </code></pre>
+  </p>
+</section>
+```
+
+Every other slide can then be markdown with code snippets that will syntax highlighted.
+
 ## run server
 
 To run a presentation - you mount the index.html as a volume and the slides folder as a volume.
