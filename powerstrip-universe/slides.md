@@ -107,14 +107,13 @@ Microservices are chatty.  They need networking together.  There are lots of con
 
 http://thealbanyjournal.com/wp-content/uploads/2011/04/Phone-company.jpg
 
-#### port mapping
+#### Port mapping
 
 Port mapping can get messy - running multiple web servers means each server wants port 80 on the host.
 
 https://raw.githubusercontent.com/binocarlos/presentations/master/powerstrip-weave/images/scrum.jpg
 
-#### virtual overlay networks
-
+#### Virtual overlay networks
 http://focus.forsythe.com/clients/22/assets/200/Slide1.JPG
 
 #### IP per container
@@ -319,6 +318,10 @@ adapters:
   weave: http://weave/extension
   flocker: http://flocker/flocker-adapter
 ```
+
+#### Blocking & Composable
+
+Because you can add multiple adapters to a Powerstrip config and each one will block the request until it is complete - it allows us to have storage AND networking.
 
 ## Demo
 
