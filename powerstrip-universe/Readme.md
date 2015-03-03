@@ -57,6 +57,7 @@ The talk is titled "deep into docker storage".  The focus is powerstrip but must
     * orchestation - WHAT to run
     * scheduling - WHERE to run it
     * monitoring - KEEP it running
+    * design 
  * Servers
     * services need to run SOMEWHERE
     * it's best for devops to not think about servers
