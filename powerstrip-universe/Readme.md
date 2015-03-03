@@ -50,11 +50,8 @@ It will talk about the various subsystems within this universe:
 
 The talk is titled "deep into docker storage".  The focus is powerstrip but must be storage based.
 
-#### An overview of multi-host docker clusters
+#### Powerstrip and multi-host docker clusters
 
- * Tools used with docker
-    * big screen of logos
-    * put all the tools into some categories (orchestration, storage, networking)
  * Micro-service Architecture
     * run lots of services across lots of hosts
     * orchestation - WHAT to run
