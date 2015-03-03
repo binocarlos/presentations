@@ -1,6 +1,4 @@
-## planning department
-
-## powerstrip / flocker
+## powerstrip universe
 
 Have meetup on Thursday - need to do blog posts about powerstrip integrating with orchestration tools.
 
