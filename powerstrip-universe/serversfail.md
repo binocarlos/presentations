@@ -2,4 +2,4 @@
 
 Expect servers to fail - otherwise dissapoint.
 
-![Dissapoint](images/dissapoint.jpeg "Dissapoint")
+![Dissapoint](images/dissapoint.jpg "Dissapoint")

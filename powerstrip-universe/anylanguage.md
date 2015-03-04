@@ -1,5 +1,5 @@
 ### Any language
 
-Each service can be a totally different language.
+Services can be in any language.
 
 ![Micro Services Language](images/languages.png "Micro Services Language")

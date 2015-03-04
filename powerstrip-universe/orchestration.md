@@ -5,7 +5,7 @@ A developer needs to describe WHAT services to run.  This means they define a **
 ```yaml
 helloworld:
   image: binocarlos/hello
-  cmd: echo "hello world!"
+  cmd: echo hello
 backflip:
   image: binocarlos/backflip
   cmd: jump --count 3
