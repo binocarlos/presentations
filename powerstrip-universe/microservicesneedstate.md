@@ -1,4 +1,4 @@
-### Microservices need state too
+### Applications need state
 
 Most applications have SOME state.  They have to save this state SOMEWHERE.
 

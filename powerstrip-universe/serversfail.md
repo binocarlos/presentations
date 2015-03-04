@@ -1,5 +1,5 @@
 ### Servers fail
 
-Expect servers to fail - otherwise dissapoint.
+Expect servers to fail - otherwise disappoint.
 
 ![Dissapoint](images/dissapoint.jpg "Dissapoint")

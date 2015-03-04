@@ -1,4 +1,4 @@
-### Docker can run databases too!
+### Docker can run databases
 
 Turn up the volume!
 
