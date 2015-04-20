@@ -1,0 +1,10 @@
+ * how you can run database servers inside containers
+ * docker data volumes and how to use them
+ * managing data volumes on a cluster of machines
+ * various topologies for stateful containers (migration, HA)
+ * flocker
+ * docker extensions and powerstrip
+ * flocker as a docker extension
+ * integrating storage with orchestration (swarm, k8s, mesos)
+ * pluggable storage backends (working with storage vendors)
+ * the big picture (orchestration -> docker/flocker -> storage backends)
