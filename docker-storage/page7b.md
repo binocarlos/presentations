@@ -2,4 +2,4 @@
 
 We should be running our servers like Cattle not Pets.
 
-BUT - what about the volumes?
+BUT - when we write data to a host - the host becomes a pet.

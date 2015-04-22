@@ -1,13 +1,20 @@
-### flocker cli
+### wrap Docker
 
-flocker:
+Flocker:
 
 ```
 $ flocker-deploy fig.yml deployment.yml
 ```
 
-weave:
+Weave:
 
 ```
 $ weave run 10.0.0.1/24 mysql
 ```
+
+Kubernetes:
+
+```
+$ kubectl create -f mypod.json
+```
+

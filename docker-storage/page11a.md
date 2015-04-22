@@ -1,4 +1,4 @@
-### flocker-deploy
+### fig.yml
 
 ```yaml
 elasticsearch:

@@ -1,4 +1,4 @@
-### Flocker migration
+### ZFS migration
 
 Uses a **ZFS agent** on each node.
 

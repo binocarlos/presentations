@@ -7,4 +7,3 @@
  * docker extensions and powerstrip
  * flocker as a docker extension
  * integrating storage with orchestration
- * pluggable storage backends

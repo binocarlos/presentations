@@ -1,6 +1,6 @@
 ### flocker-deploy
 
-Use a cli tool called **flocker-deplpy** manage the location of volumes / containers.
+Use a cli tool called **flocker-deploy** to manage the location of volumes / containers.
 
 Use a **docker-compose** style yaml to describe containers.
 

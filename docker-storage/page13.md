@@ -1,7 +1,11 @@
-### flocker cli
+### Powerstrip
 
-flocker is great but it **wraps** the docker CLI
+A tool to **prototype** Docker extensions.
 
-This means it cannot be used with orchestration tools (Kubernetes, Mesos, Swarm) or networking tools (Socketplane, Weave, Calico)
+It is a **HTTP proxy** that sits in front of the docker server.
 
-ALL of these tools **wrap** the docker cli.
+It allows Docker extensions that are:
+
+ * late-bound
+ * composable
+ * optional
