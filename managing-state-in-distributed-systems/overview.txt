@@ -1,0 +1,23 @@
+ * a new dawn for distributed applications has arrived
+ * the days of thinking up cute names for servers has passed
+ * we should no longer be thinkig about individual servers
+ * in fact, we should EXPECT servers to die
+ * statistically, the more you scale, the more servers will fail
+ * ask yourself this - if I randomly start killing servers, will my application still work?
+ * Docker helps you make the transistion from pets to cattle
+ * So - we should: Containerize all the things!
+ * There is a party happening inside a container and your application is invited.
+ * Your node.js, Python and go processes are busting out some funky moves now they are inside containers.
+ * They can move, they can fail, they can scale - all thanks to Moby the whale.
+ * BUT, on the other side of town, there are some parts of your application that feel left out.
+ * These are the loyal, long running processes that write state to disk.
+ * They like to party, but can't join in because they ARE fixed to a specific server.
+ * The moment they write a few bytes to disk - they are joined at the hip to the server they wrote that data to.
+ * So how can we bring these processes into the fold and containerze ALL the things?
+ * We need a distributed volume manager.
+ * Something that is aware of where your state is and can move it around your cluster.
+ * Introducing Flocker 1.0!
+ * Flocker lets you treat your database containers like cattle not pets.
+ * Using the AWS EBS or OpenStack Cinder backends - Flocker will re-attach volumes to the server your database container is running on.
+ * Using the ZFS backend - Flocker can migrate your data from one server to another.
+ * Invite your database containers to the party - use Flocker to manage your volunes.

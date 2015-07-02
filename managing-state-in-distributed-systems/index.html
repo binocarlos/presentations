@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Managing State in Distributed Systems</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <style type="text/css">
+        /*.slides section img{
+            max-height:450px;
+        }*/
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+          text-transform: none;
+        }
+
+        .reveal section img{
+          max-height:500px;
+        }
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h3>Managing State in Distributed Systems</h3>
+          <p>
+            <small>and how to Dockerize ALL the things</small>
+          </p>
+          <p>
+          <pre><code>
+
+          docker run -d -v /storage/solution:/data mysql
+
+          </code></pre>
+          </p>
+          <p>
+            <small>
+                Kai Davenport - @kai_davenport
+            </small>
+          </p>
+
+          <p>
+            <small>
+                github.com/binocarlos
+            </small>
+          </p>
+
+          <p>
+            <small>
+                ClusterHQ - https://clusterhq.com
+            </small>
+          </p>
+
+        </section>
+
+        <section data-markdown="slides/newdawn.md"  
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+        <section data-markdown="slides/servernames.md"  
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+        <section data-markdown="slides/individualservers.md"  
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/expectdie.md"  
+        
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+        <section data-markdown="slides/stats.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/killservers.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+
+        <section data-markdown="slides/petstocattle.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/containerizeallthethings.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/partytime.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/bustingmoves.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/mobythewhale.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/othersideoftown.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/loyalprocesses.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+
+        <section data-markdown="slides/cantjoinin.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/joinedhip.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/containerize2.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/volumemanager.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+       
+        <section data-markdown="slides/movearoundcluster.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+        <section data-markdown="slides/flocker.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+        <section data-markdown="slides/databasecattle.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/aws.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/zfs.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/invite.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+
+        <section data-markdown="slides/end.md"  
+
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+       
+       
+       
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
