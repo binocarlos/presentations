@@ -1,0 +1,52 @@
+* microservices vs monolith
+    * netflix vs etsy
+    * unix philosophy - do one thing well
+    * services can be in different languages
+
+* docker
+    * REST API for processes (remote API)
+    * lightweight isolation (namespaces, cgroups)
+    * immutable image delivery (dockerhub)
+ 
+* docker for microservices
+    * no 'installation matrix from hell' (install Ruby with PHP with node.js)
+    * very fast spin up time
+    * much higher density
+
+* orchestration
+    * manifest (what processes to run)
+    * hardware (compute resources)
+    * scheduling (which process to run on what hardware)
+
+* orchestration systems
+    * swarm (multiplexed docker server)
+    * kubernetes (based on Google borg)
+    * mesosphere (mesos + marathon / kernel + init system)
+
+* what about state?
+    * everything is fluid - except data on disk
+    * the moment a process writes some bytes to disk, it is bound at the hip
+    * we need 'portable volumes'
+
+* flocker
+    * distributed volume manager
+    * can migrate data volumes from one host to another
+    * treats the container AND the volume as an atomic unit
+
+* storage backends
+    * AWS EBS
+    * OpenStack Cinder
+    * ZFS
+    * EMC
+
+* works with Docker
+    * powerstrip
+    * docker plugins
+    * docker volume plugin
+
+* works with orchestration
+    * swarm - demo today
+    * mesosphere - out of the box
+    * kubernetes - patch needed
+
+* demo time!
