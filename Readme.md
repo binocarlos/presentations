@@ -1,14 +1,18 @@
 ## presentations
 
-A repository of presentations using [reveal.js](https://github.com/hakimel/reveal.js/)
+A repository of presentations using [reveal.js](https://github.com/hakimel/reveal.js/) and [Docker](https://docker.com)
 
-## install
+## quickstart
+
+To run one of the presentations - first clone this repo and then use the `run.sh` script passing the name of the presentation as the first argument:
 
 ```bash
-$ docker build -t binocarlos/presentations .
+$ git clone https://github.com/binocarlos/presentations
+$ cd presentations
+$ bash run.sh docker-plugins
 ```
 
-The image is on the dockerhub however so you don't **have** to `docker build` it.
+Each presentation lives in a folder inside the repo.  Each slide is a markdown file converted into HTML by reveal.js
 
 ## usage
 
