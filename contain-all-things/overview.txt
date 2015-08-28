@@ -1,0 +1,41 @@
+* 12 factor applications
+    * stateless process(es)
+    * keep state externally
+    * database as a service
+    * fit your data structure to the datastore
+
+* microservices
+    * lots of processes
+    * written in different languages
+    * use the right datastore for the job
+    * fit your datastore to your data structure
+    * use lots of datastores!
+
+* orchestration
+    * manage the complexity of having lots of processes
+    * kubernetes, mesos, swarm, lattice, diego, apollo etc
+    * will reschedule work onto different servers
+    * cattle not pets
+
+* problem
+    * we have all these tools to manage all these processes
+    * but we dont use these tools to manage the datastores
+    * why?
+    * because stateful processes are fixed to the server that they wrote to
+    * this is pets not cattle
+
+* solution
+    * treat the process AND it's data as a single atomic unit
+    * move the data if the process moves
+    * integrate this solution into the orchestration tools
+
+* Flocker
+    * cluster wide storage orchestration framework
+    * can move storage volumes around a cluster
+    * supports AWS EBS, OpenStack Cinder, ZFS, EMC scale.io & xtrem.io
+
+* Flocker Plugin for Docker
+    * Orchestration tools speak the docker API
+    * docker 1.8 (master) has '--volume-driver' support
+    * orchestration frameworks can now manage datastores
+    * contain ALL the things!
