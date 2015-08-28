@@ -12,6 +12,8 @@ $ cd presentations
 $ bash run.sh docker-plugins
 ```
 
+Docker will expose port 80 on the host so you should be able to hit `http://localhost` to see the presentation.  If you are running inside a VM (either using Vagrant or something else) - you need to expose port 80 inside the VM onto your laptop.
+
 Each presentation lives in a folder inside the repo.  Each slide is a markdown file converted into HTML by reveal.js
 
 ## usage
