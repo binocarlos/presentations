@@ -1,0 +1,65 @@
+* Containers
+    * use features of the linux kernel
+    * operating system virtualisation
+    * only linux
+    * time to spin up ~0.1 secs -> 10 secs
+    * density - 10-1000 containers per vm
+* How do containers work
+    * namespaces - process,mount,network,user
+    * cgroups - CPU,RAM,disk I/O, network
+* Immutable infrastructure
+    * Docker images
+    * CAPS - Chef,Ansible,Puppet,SaltStack
+    * problems arise from mutable state
+    * build once then throw away
+    * the same as AMI's but for containers
+* EC2
+    * on demand `compute` resources
+    * used to be 2 weeks - now it's 2 mins
+* EC2 Demo
+    * first lets run a simple container and explore
+    * web-servers compete over port 80
+    * we want to run 100 on one machine
+    * we don't want to reconfigure the application
+    * we want half the servers to run on Ubuntu and half on CentOS
+* Scheduling
+    * what if we want more than one VM?
+    * something needs to decide what will run where
+    * we want to write a manifest that describes our stack
+    * then pass the manifest to a scheduler and it will allocate containers
+    * if a VM dies - the scheduler should re-schedule onto another machine
+    * stop thinking about individual servers - cattle not pets!
+    * Kubernetes,Mesosphere,Swarm,CloudFoundry,CloudSoft,ECS
+* Networking
+    * For a microservice application - we need containers to talk to each other
+    * We also want to secure this communication from the outside world
+    * Docker allows to you expose a port on the host to a container port
+    * Problem - we need to expose ports on the host
+    * this means applications need to know the port to connect on
+* Weave
+    * Layer 2 networking router for containers
+    * Uses pcap to dynamically route in user space
+    * Because it's layer 2 - uses MAC addresses and a gossip protocol
+    * This means IP addresses can move
+* Simple Network Demo
+    * Run a container exposing a port
+* Weave Demo
+    * Lets use Weave to have 2 containers communicate
+    * Demo of weave connected containers
+    * Solution - each container has it's own IP
+    * Now servers can be contacted on a standard port
+* Storage
+    * Some containers will want to write state to disk
+    * What if we want to move the container or the host dies?
+    * This becomes pets not cattle
+    * EBS offers Block storage attached to the VM
+    * We need a way to manage these block devices and attach them to containers
+* Flocker
+    * Distributed volume manager
+    * Is aware of data-volumes and what host they live on
+    * Can move data-volumes alongside containers as an atomic unit
+    * Choice of backend support - ZFS, EBS, OpenStack Cinder
+    * Working with industry partners - EMC, NetApp etc
+* Flocker Demo
+    * Lets create a container on one host and write some data
+    * Lets then create a container on another host and read the data

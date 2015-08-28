@@ -1,0 +1,17 @@
+Simple EC2 Demo
+
+```bash
+ssh -i ~/.ssh/kai-demo.pem ubuntu@simple-ec2
+docker run -ti --rm ubuntu
+cd /
+ls -la
+ps -aux
+ifconfig
+cat /etc/passwd
+```
+
+EC2 Demo
+
+```bash
+ssh ubuntu@simple-ec2
+```
