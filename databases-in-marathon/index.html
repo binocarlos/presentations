@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Running database containers in Marathon</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <style type="text/css">
+        .slides section img{
+            max-height:450px;
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h3>Running database containers with Marathon and Flocker</h3>
+          <p>
+          <pre><code>
+...
+
+"parameters": [{
+  "key": "volume-driver",
+  "value": "flocker"
+},{
+  "key": "volume",
+  "value": "marathondemo:/data"
+}]
+
+...
+          </code></pre>
+          </p>
+
+          <p>
+          @kai_davenport - github.com/binocarlos<br />
+          clusterhq.com
+          </p>
+        </section>
+
+        <!-- microservices -->
+
+        <section>
+            <h4>microservices</h4>
+            <ul>
+                <li class="fragment">microservices encourage lots of small de-coupled services</li>
+                <li class="fragment">to truely de-couple - each micro-service that needs state should have it's own data-store</li>
+                <li class="fragment">this means a big increase in the number of stateful processes the cluster requires</li>
+            </ul>
+
+        </section>
+
+        <!-- databases and containers -->
+
+        <section>
+            <h4>databases and containers</h4>
+            <ul>
+                <li class="fragment">a database is a process that is reading/writing state to disk</li>
+                <li class="fragment">containers are great at managing processes</li>
+                <li class="fragment">we need "something" that can handle the "write state to disk" part</li>
+                <li class="fragment">if we had this, we can take advantage of using containers to manage the process part of databases</li>
+            </ul>
+
+        </section>
+
+        <!-- scheduling across a cluster -->
+
+        <section>
+            <h4>scheduling across a cluster</h4>
+            <ul>
+                <li class="fragment">there are excellent tools out there to manage complex scheduling of containers across many hosts</li>
+                <li class="fragment">this is especially important for microservices where there are many more processes to manage</li>
+                <li class="fragment">Marathon, Kubernetes, Swarm, CloudFoundry, Clocker, GiantSwarm, Fleet</li>
+                <li class="fragment">these tools can handle many jobs across many machines</li>
+            </ul>
+
+        </section>
+
+        <!-- managing state across a cluster -->
+
+        <section>
+            <h4>managing state across a cluster</h4>
+            <ul>
+                <li class="fragment">but if we are going to run databases inside containers - we need a tool that can schedule data-volumes as well as tools that can schedule containers</li>
+                <li class="fragment">we should be using these tools together to manage our stateful processes alongside the stateless ones</li>
+                <li class="fragment">a unified management layer for our entire stack!</li>
+            </ul>
+
+        </section>
+
+        <!-- Mesos -->
+
+        <section>
+            <h4>Mesos</h4>
+            <ul>
+                <li class="fragment">kernel of the datacentre</li>
+                <li class="fragment">origins in Twitter - powers Apple's Siri, AirBnB and many others</li>
+                <li class="fragment">has a master/slave architecture</li>
+                <li class="fragment">keeps state in zookeeper (which uses Paxos)</li>
+                <li class="fragment">slaves make "resource offers" to the master</li>
+                <li class="fragment">frameworks accept or reject these offers</li>
+                <li class="fragment">slaves run "tasks" once framework has accepted offer</li>
+            </ul>
+
+        </section>
+
+        <!-- Mesos Frameworks -->
+
+        <section>
+            <h4>Mesos Frameworks</h4>
+            <ul>
+                <li class="fragment">frameworks run on top of Mesos to provide opinionated access to underlying resources</li>
+                <li class="fragment">a framework consists of scheduler and executor</li>
+                <li class="fragment">scheduler decides which resource offers to accept</li>
+                <li class="fragment">executor runs commands on the accepted nodes</li>
+            </ul>
+
+        </section>
+
+        <!-- Popular Mesos Frameworks -->
+
+        <section>
+            <h4>Popular Mesos Frameworks</h4>
+            <ul>
+                <li class="fragment">Marathon - an init system for the datacentre (like systemd, upstart but distributed)</li>
+                <li class="fragment">Chronos - cron for the datacentre - run periodic jobs across the cluster</li>
+                <li class="fragment">Hadoop - Map/Reduce made easy</li>
+                <li class="fragment">Spark - parallel computing</li>
+                <li class="fragment">Storm - realtime computation</li>
+                <li class="fragment">Jenkins - CI</li>
+                <li class="fragment">ElasticSearch - distributed database</li>
+                <li class="fragment">You can write your own frameworks!</li>
+            </ul>
+
+        </section>
+
+
+        <!-- Marathon -->
+
+        <section>
+            <h4>Marathon</h4>
+            <ul>
+                <li class="fragment">provides a REST api to control desired state of long running processes</li>
+                <li class="fragment">can run arbitrary commands on the host or containers</li>
+                <li class="fragment">Mesos has it's own containerizer or you can use Docker</li>
+                <li class="fragment">desired state is represented by JSON files describing "groups" and "apps"</li>
+                <li class="fragment">groups describe collections of apps in a single unit</li>
+                <li class="fragment">apps can be "scaled" - each instance becomes a single Mesos task</li>
+            </ul>
+
+        </section>
+
+        <!-- Flocker -->
+
+        <section>
+            <h4>Flocker</h4>
+            <ul>
+                <li class="fragment">storage orchestration tool for a cluster of machines</li>
+                <li class="fragment">treats a container and data volume as a single atomic unit</li>
+                <li class="fragment">provides a REST API that can be used from any language or stack</li>
+                <li class="fragment">has a Docker plugin for native Docker integration</li>
+            </ul>
+
+        </section>
+
+        <!-- Docker Plugin -->
+
+        <section>
+            <h4>Docker Plugin</h4>
+            <ul>
+                <li class="fragment">Plugins mechanism for Docker allows external processes to handle volumes</li>
+                <li class="fragment">Docker --volume-driver syntax means Docker will call out to Flocker to handle a volume</li>
+                <li class="fragment">When a container starts with a Flocker volume - Docker will block until the volume is mounted</li>
+                <li class="fragment">This allows orchestration platforms to transparently handle volumes via the docker plugin</li>
+            </ul>
+
+        </section>
+
+        <!-- Backend storage drivers -->
+
+        <section>
+            <h4>Backend storage drivers</h4>
+            <ul>
+                <li class="fragment">Flocker supports a range of different backend storage drivers</li>
+                <li class="fragment">Choose the right backend dependent upon your use-case</li>
+                <li class="fragment">Amazon EBS and OpenStack Cinder for network attached block devices</li>
+                <li class="fragment">EMC scale.io and xtrem.io support</li>
+                <li class="fragment">Hedvig, Converge.io and many others</li>
+            </ul>
+
+        </section>
+
+        <section data-background="images/talk-images.017.png">
+          
+        </section>
+
+        <!-- Flocker use cases -->
+
+        <section data-markdown="slides/page12.md"  
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+
+        <section data-background="images/talk-images.005.png" >
+        </section>
+
+        <section data-background="images/talk-images.006.png" >
+        </section>
+
+        <section data-background="images/talk-images.007.png" >
+        </section>
+
+        <section data-background="images/talk-images.008.png" >
+        </section>
+
+        <section data-background="images/talk-images.009.png" >
+        </section>
+
+        <section data-background="images/talk-images.010.png" >
+        </section>
+
+        <section data-background="images/talk-images.011.png" >
+        </section>
+
+        <section data-background="images/talk-images.012.png" >
+        </section>
+
+        <section data-background="images/talk-images.013.png" >
+        </section>
+
+        <section data-background="images/talk-images.014.png" >
+        </section>
+
+        <section data-background="images/talk-images.015.png" >
+        </section>
+
+        <section data-background="images/talk-images.016.png" >
+        </section>
+
+        <!-- Demos -->
+
+        <section data-markdown="slides/page14.md"  
+                 data-separator="^\n\n\n"  
+                 data-separator-vertical="^\n\n"  
+                 data-separator-notes="^Note:"  
+                 data-charset="iso-8859-15">
+        </section>
+        
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>

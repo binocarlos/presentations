@@ -1,0 +1,73 @@
+marathon talk
+
+* why should we care?
+    * microservices encourage lots of small de-coupled services
+    * to truely de-couple - each micro-service should have it's own data-store
+    * this means a big increase in the number of stateful processes the cluster requires
+    * a database is a process that is reading/writing state to disk
+    * containers are great at managing processes
+    * there are excellent tools out there to manage complex scheduling of containers across many hosts
+    * as we will discover today, there are tools that can manage the state written to disk
+    * we should be using these tools together to manage our stateful processes alongside the stateless ones
+    * a unified management layer for our entire stack!
+
+* overview of Mesos
+    * kernel of the datacentre
+    * origins in Twitter - powers Apple's Siri, AirBnB and many others
+    * has a master/slave architecture
+    * keeps state in zookeeper (which uses Paxos)
+    * slaves make "resource offers" to the master
+    * frameworks accept or reject these offers
+    * slaves run "tasks" once framework has accepted offer
+
+* Mesos Frameworks
+    * frameworks run on top of Mesos to provide opinionated access to underlying resources
+    * a framework consists of scheduler and executor
+    * scheduler decides which resource offers to accept
+    * executor runs commands on the accepted nodes
+
+* Popular Mesos Frameworks
+    * Marathon - an init system for the datacentre (like systemd, upstart but distributed)
+    * Chronos - cron for the datacentre - run periodic jobs across the cluster
+    * Hadoop - Map/Reduce made easy
+    * XXX put some more here and also talk about their origins
+
+* Marathon
+    * provides a REST api to control desired state of long running processes
+    * can run arbitrary commands on the host or containers
+    * Mesos has it's own containerizer or you can use Docker
+    * desired state is represented by JSON files describing:
+        * groups
+        * apps
+    * groups describe collections of apps in a single unit
+    * apps can be "scaled" - each instance becomes a single Mesos task
+
+* Flocker
+    * storage orchestration tool for a cluster of machines
+    * treats a container and data volume as a single atomic unit
+    * provides a REST API that can be used from any language or stack
+    * has a Docker plugin for native Docker integration
+
+* Docker Plugin
+    * Plugins mechanism for Docker allows external processes to handle volumes
+    * Docker --volume-driver syntax means Docker will call out to Flocker to handle a volume
+    * When a container starts with a Flocker volume - Docker will block until the volume is mounted
+    * This allows orchestration platforms to transparently handle volumes via the docker plugin
+
+* Backend storage drivers
+    * Flocker supports a range of different backend storage drivers
+    * Choose the right backend dependent upon your use-case
+    * Amazon EBS and OpenStack Cinder for network attached block devices
+    * EMC scale.io and xtrem.io support
+    * Hedvig, Converge.io and many others
+
+* Flocker use cases
+    * show the use-case slides from Lukes talk
+
+* Run a Database on Marathon
+    * using the '--volume-driver' syntax we can run containers via Marathon that have Flocker volumes attached to them
+    * if the container is restarted or rescheduled - Flocker will move the volume ready for the container
+
+* Demos
+    * Show the ha example
+    * Show the many databases in a stack example
