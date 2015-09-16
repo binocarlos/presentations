@@ -149,6 +149,10 @@
 
         </section>
 
+        <section data-background="images/mesos-arch.jpg">
+
+        </section>
+
         <!-- Popular Mesos Frameworks -->
 
         <section>
@@ -182,6 +186,43 @@
 
         </section>
 
+        <section>
+          <pre><code>
+{
+  "id":"marathon-ha-demo",
+  "apps":[{
+    "id": "moby-counter",
+    "container": {
+      "type": "DOCKER",
+      "docker": {
+        "image": "binocarlos/moby-counter:localfile",
+        "network": "BRIDGE",
+        "portMappings": [{
+          "containerPort": 80,
+          "hostPort": 8500,
+          "protocol": "tcp"
+        }],
+        "parameters": [{
+          "key": "volume-driver",
+          "value": "flocker"
+        },{
+          "key": "volume",
+          "value": "marathondemo:/data"
+        }]
+      },
+      "forcePullImage":true
+    },
+    "ports":[
+      8500
+    ],
+    "instances": 1,
+    "cpus": 0.5,
+    "mem": 512
+  }]
+}
+          </code></pre>
+        </section>
+
         <!-- Flocker -->
 
         <section>
@@ -194,6 +235,20 @@
             </ul>
 
         </section>
+
+        <section data-background="images/talk-images.022.png">
+
+        </section>
+
+        <section data-background="images/talk-images.023.png">
+
+        </section>
+
+        <section data-background="images/talk-images.024.png">
+
+        </section>
+
+
 
         <!-- Docker Plugin -->
 
@@ -278,6 +333,20 @@
                  data-separator-vertical="^\n\n"  
                  data-separator-notes="^Note:"  
                  data-charset="iso-8859-15">
+        </section>
+
+        <section>
+          <h3>Running database containers with Marathon and Flocker</h3>
+          <p>
+          <pre><code>
+// the end
+          </code></pre>
+          </p>
+
+          <p>
+          @kai_davenport - github.com/binocarlos<br />
+          clusterhq.com
+          </p>
         </section>
         
 
