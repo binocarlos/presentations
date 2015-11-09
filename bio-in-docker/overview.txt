@@ -1,0 +1,129 @@
+* Why Containers?
+
+  * Isolate
+    * bio-informatics pipelines will combine many different tools
+    * each tool may be totally different languages/versions
+    * each tool will have different installation and OS dependencies
+    * trying to install more than one package onto one machine is messy
+    * CAPS (Chef, Ansible, Puppet and Saltstack) try to do this
+    * each container has it's own Mount Namespace (think 'isolated virtual disk')
+    * this means each container (thinks it) has a brand new machine to install software onto
+
+  * Expediate
+    * pre-built immutable binary images (a.k.a. the Dockerhub) - 'docker pull' and done
+    * VM's also have this (for example AMI images for EC2 instances)
+    * the time to start a container is an order of magnitude quicker than a VM
+    * because the kernel is shared between containers
+    * VM startup time 30secs to several minutes
+    * container startup time 10ms to 10secs
+    * some folks (https://force12.io) are using this to do 'MicroScaling'
+    * this means starting 1 container per incoming request
+    * new and exciting paradigms become possible
+
+  * Compact
+    * can put many more containers onto a bare metal server than VMs
+    * because you are not duplicating the entire OS kernel for each container
+    * CGroups allow you to limit the resources used by a single container (CPU, Memory etc)
+    * this allows fine grained control over "how much to fill up the boxes"
+
+* Monoliths, Microservices and Pipelines
+
+  * Monoliths
+    * write all your code in one main process
+    * comminicate by invoking functions
+    * the application is (largely) in one language or framework
+    * usually a common database to store application data
+
+  * Microservices
+    * split your application up into smaller 'services'
+    * communicate over the network
+    * each service can be in a different language
+    * a domain specific database for each service
+
+  * Pipelines
+    * the pipeline is made up of smaller processes
+    * communicate over the network or stdin/stdout
+    * each process can be in a different language
+    * how do data pipelines use databases anyway?
+
+  * Observations
+    * pipelines look a lot more like microservices than monoliths
+    * perhaps we could use the same infrastructure and tools?
+
+* Servers
+
+  * Naming servers
+    * I used to name my servers
+    * if one went away - it really mattered
+    * each one was lovingly configured and had a specific set of jobs
+    * I treated them like pets
+
+  * Not naming servers
+    * it turns out that computers are not like animals
+    * they do not repay human kindess with affection (they fail randomly)
+    * each server should be auto-configured and interchangeable
+    * they should be treated like cattle
+
+  * Hide the hardware
+    * you have a 'pool of compute resources'
+    * let's hide this away behind an orchestration tool
+    * we tell the orchestrator what we want to happen
+    * it knows how to get things into that state
+    * think about your 'desired state' not individual computers
+
+* Orchestration
+
+  * Scheduling
+    * when you say 'run this process' something needs to decide where
+    * schedulers needs to know what else is running on the cluster
+    * they then play a game of Tetris to find the best place
+  
+  * Monitoring
+    * orchestration tools can detect when a process dies or a host fails
+    * they will 're-schedule' the process(es) onto a healthy machine
+    * this is an automated version of 'drive to the data-centre at 3am'
+
+* State
+
+  * Don't touch that disk!
+    * the moment you write anything to disk you make the server a pet
+    * that goes against 'cattle not pets' and orchestration tools can just 're-schedule'
+    * this is why 12-factor applications are stateless - because state is hard
+
+  * 
+
+* Storage in Docker
+
+  * Docker volumes
+    * a volume is a bind-mounted directory from the host to inside a container
+    * this means the data written to it will persist on the host
+    * simple demo of docker volumes
+
+  * Multi-host volumes
+    * standard Docker volumes are single-host aware
+
+* Stateful Containers in Data Pipelines
+
+  * 
+  * Examples of stateful containers
+    * A data processing pipeline that wants to read input or write output from/to a database
+    * An intermediate process that needs to use a disk based cache or lookup table
+    
+
+  * Example image
+
+https://docs.google.com/presentation/d/1OJwdP26Wi_jH-C9arZFCei2t6FjfWsNnVTSyXLELbNk/edit#slide=id.gd1ca347af_1_23
+
+* Docker and Storage
+
+  * An overview
+    * There are 2 types of storage in the world of Docker
+    * The 'Docker Storage Driver' handles storage for Docker images
+    * 
+
+
+
+* managing complexity
+  * orchestration tools
+    * 
+  

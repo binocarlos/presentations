@@ -76,7 +76,7 @@
             <h4>microservices</h4>
             <ul>
                 <li class="fragment">microservices encourage lots of small de-coupled services</li>
-                <li class="fragment">to truely de-couple - each micro-service that needs state should have it's own data-store</li>
+                <li class="fragment">to truely de-couple - each micro-service that needs state should have its own data-store</li>
                 <li class="fragment">this means a big increase in the number of stateful processes the cluster requires</li>
             </ul>
 
@@ -102,7 +102,7 @@
             <ul>
                 <li class="fragment">there are excellent tools out there to manage complex scheduling of containers across many hosts</li>
                 <li class="fragment">this is especially important for microservices where there are many more processes to manage</li>
-                <li class="fragment">Marathon, Kubernetes, Swarm, CloudFoundry, Clocker, GiantSwarm, Fleet</li>
+                <li class="fragment">Marathon, Kubernetes, Swarm, GiantSwarm, Fleet</li>
                 <li class="fragment">these tools can handle many jobs across many machines</li>
             </ul>
 
@@ -126,12 +126,12 @@
             <h4>Mesos</h4>
             <ul>
                 <li class="fragment">kernel of the datacentre</li>
-                <li class="fragment">origins in Twitter - powers Apple's Siri, AirBnB and many others</li>
+                <li class="fragment">origins in UC Berkeley RAD Lab then Twitter - powers Apple's Siri, AirBnB and many others</li>
                 <li class="fragment">has a master/slave architecture</li>
                 <li class="fragment">keeps state in zookeeper (which uses Paxos)</li>
                 <li class="fragment">slaves make "resource offers" to the master</li>
                 <li class="fragment">frameworks accept or reject these offers</li>
-                <li class="fragment">slaves run "tasks" once framework has accepted offer</li>
+                <li class="fragment">slaves run "tasks" once the framework has accepted offers</li>
             </ul>
 
         </section>
@@ -144,12 +144,12 @@
                 <li class="fragment">frameworks run on top of Mesos to provide opinionated access to underlying resources</li>
                 <li class="fragment">a framework consists of scheduler and executor</li>
                 <li class="fragment">scheduler decides which resource offers to accept</li>
-                <li class="fragment">executor runs commands on the accepted nodes</li>
+                <li class="fragment">executor knows how to run commands on the accepted nodes</li>
             </ul>
 
         </section>
 
-        <section data-background="images/mesos-arch.jpg">
+        <section data-background="images/diagramimages2.001b.jpg">
 
         </section>
 
@@ -159,12 +159,8 @@
             <h4>Popular Mesos Frameworks</h4>
             <ul>
                 <li class="fragment">Marathon - an init system for the datacentre (like systemd, upstart but distributed)</li>
-                <li class="fragment">Chronos - cron for the datacentre - run periodic jobs across the cluster</li>
-                <li class="fragment">Hadoop - Map/Reduce made easy</li>
-                <li class="fragment">Spark - parallel computing</li>
-                <li class="fragment">Storm - realtime computation</li>
-                <li class="fragment">Jenkins - CI</li>
-                <li class="fragment">ElasticSearch - distributed database</li>
+                <li class="fragment">Chronos - a cron for the datacentre - run periodic jobs across the cluster</li>
+                <li class="fragment">Hadoop, Spark, Storm, Jenkins, ElasticSearch</li>
                 <li class="fragment">You can write your own frameworks!</li>
             </ul>
 
@@ -263,6 +259,10 @@
 
         </section>
 
+        <section data-background="images/diagramimages2.002.jpg">
+
+        </section>
+
         <!-- Backend storage drivers -->
 
         <section>
@@ -347,6 +347,10 @@
           @kai_davenport - github.com/binocarlos<br />
           clusterhq.com
           </p>
+
+          <p>
+          p.s. this presentation was running in Docker :-)
+          </p>
         </section>
         
 
@@ -365,7 +369,7 @@
         controls: true,
         progress: true,
         history: true,
-        center: true,
+        //center: true,
 
         transition: 'slide', // none/fade/slide/convex/concave/zoom
 

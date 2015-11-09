@@ -1,0 +1,33 @@
+* batteries included but removable
+
+* dockercon Amsterdam
+    * the iron picture
+ 
+* composable
+    * need to have storage AND networking
+
+* late-bound
+    * cannot be patching and re-compiling Docker
+
+* optional
+    * need to have a choice between implementations
+
+* Powerstrip!
+    * overview diagram
+
+* pre-hooks
+
+* post-hooks
+
+* discussions
+    * many parties involved
+    * SSH / HTTP2 / JSON over HTTP
+
+* plugins
+    * JSON over HTTP
+    * blocking pre-hooks
+
+* endpoints
+    * storage
+    * networking
+

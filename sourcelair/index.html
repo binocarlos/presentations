@@ -62,7 +62,10 @@
           <p>
           <pre><code>
 
-    docker run --volume-driver flocker -v myvolume:/data mysql
+    docker run -d \
+      --volume-driver flocker \
+      -v apples:/data \
+      mysql
 
           </code></pre>
           </p>
@@ -100,18 +103,114 @@
                  data-charset="iso-8859-15">
         </section>
 
-        <section data-markdown="slides/plugins.md"  
-                 data-separator="^\n\n\n"  
-                 data-separator-vertical="^\n\n"  
-                 data-separator-notes="^Note:"  
-                 data-charset="iso-8859-15">
+        <section>
+          <h4>Weave</h4>
+          <p>
+          <pre><code>
+
+    weave run 10.1.2.3 mysql
+
+          </code></pre>
+          </p>
         </section>
 
-        <section data-markdown="slides/apples.md"  
-                 data-separator="^\n\n\n"  
-                 data-separator-vertical="^\n\n"  
-                 data-separator-notes="^Note:"  
-                 data-charset="iso-8859-15">
+        <section>
+          <h4>Flocker</h4>
+          <p>
+          <pre><code>
+
+    flocker-deploy app.yml deploy.yml
+
+          </code></pre>
+          </p>
+        </section>
+
+        <section data-background="images/diagramimages2.002.jpg">
+
+        </section>
+
+        <section>
+          <h4>Normal Volumes</h4>
+          <p>
+          <pre><code>
+
+    docker run -d \
+      -v /var/apples/mysql:/var/lib/mysql \
+      mysql
+
+          </code></pre>
+          </p>
+        </section>
+
+        <section>
+          <h4>Plugin Volumes</h4>
+          <p>
+          <pre><code>
+    docker run -d \
+      --volume-driver flocker \
+      -v apples:/var/lib/mysql \
+      mysql
+          </code></pre>
+          </p>
+        </section>
+
+        <section data-background="images/talk-images.017.png">
+          
+        </section>
+
+        <section data-background="images/talk-images.022.png">
+
+        </section>
+
+        <section data-background="images/talk-images.023.png">
+
+        </section>
+
+        <section data-background="images/talk-images.005.png" >
+        </section>
+
+        <section data-background="images/talk-images.006.png" >
+        </section>
+
+        <section data-background="images/talk-images.007.png" >
+        </section>
+
+        <section data-background="images/talk-images.008.png" >
+        </section>
+
+        <section data-background="images/talk-images.009.png" >
+        </section>
+
+        <section data-background="images/talk-images.010.png" >
+        </section>
+
+        <section data-background="images/talk-images.011.png" >
+        </section>
+
+        <section data-background="images/talk-images.012.png" >
+        </section>
+
+        <section data-background="images/talk-images.013.png" >
+        </section>
+
+        <section data-background="images/talk-images.014.png" >
+        </section>
+
+        <section data-background="images/talk-images.015.png" >
+        </section>
+
+        <section data-background="images/talk-images.016.png" >
+        </section>
+
+        <section>
+          <h4>Basic Demo</h4>
+        </section>
+
+        <section>
+          <h4>Interactive Demo</h4>
+          <p>
+            j.mp/flocker-sl
+          </p>
         </section>
 
        
