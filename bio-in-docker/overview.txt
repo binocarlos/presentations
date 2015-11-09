@@ -16,39 +16,38 @@
     * because the kernel is shared between containers
     * VM startup time 30secs to several minutes
     * container startup time 10ms to 10secs
-    * some folks (https://force12.io) are using this to do 'MicroScaling'
-    * this means starting 1 container per incoming request
-    * new and exciting paradigms become possible
 
   * Compact
-    * can put many more containers onto a bare metal server than VMs
+    * you can put many more containers onto a bare metal server than VMs
     * because you are not duplicating the entire OS kernel for each container
     * CGroups allow you to limit the resources used by a single container (CPU, Memory etc)
     * this allows fine grained control over "how much to fill up the boxes"
 
-* Monoliths, Microservices and Pipelines
+* Docker Storage
 
-  * Monoliths
-    * write all your code in one main process
-    * comminicate by invoking functions
-    * the application is (largely) in one language or framework
-    * usually a common database to store application data
+  * Images
+    * when you build a Docker image - it uses the 'graph driver' to save each layer
+    * a layer is the result of running a command on a previous layer
+    * there are various 'graph drivers' - most use 'copy-on-write'
+    * aufs, devicemapper, overlayfs (there is even a ZFS driver in the works)
+    * whilst important - this is not the type of storage we are focusing on today
 
-  * Microservices
-    * split your application up into smaller 'services'
-    * communicate over the network
-    * each service can be in a different language
-    * a domain specific database for each service
+  * Dockerfile example without volume
 
-  * Pipelines
-    * the pipeline is made up of smaller processes
-    * communicate over the network or stdin/stdout
-    * each process can be in a different language
-    * how do data pipelines use databases anyway?
+  * Volumes
+    * when a container runs (from an image) - it has it's own 'mount namespace'
+    * this means that filesystem operations are isolated inside the container
+    * but what if the container needs to read and write to disk?
+    * a Docker volume is a bind-mounted directory from the host into a container
+    * this means data written to that directory persists even when the container stops
+    * because it's a shared kernel, you can use funky filesystems (ZFS, EBS, Fuse etc)
+  
+  * Dockerfile example with volume
 
-  * Observations
-    * pipelines look a lot more like microservices than monoliths
-    * perhaps we could use the same infrastructure and tools?
+  * Demo of Docker Volumes
+    * no volume - the state is not there the next time
+    * a named volume - now we know where the data is
+    * multi-host volume - yikes, this needs some thought
 
 * Servers
 
@@ -64,14 +63,48 @@
     * each server should be auto-configured and interchangeable
     * they should be treated like cattle
 
+  * Don't touch that disk!
+    * the moment you write anything to disk you make the server a pet
+    * that is because no other server in the cluster has that data on it's disk
+    * to truely treat servers like cattle - we need 'portable data volumes'
+    * then we can loose a server and the data can be moved to another one
+
+* Flocker
+
+  * Volume orchestration
+    * storage orchestration tool for a cluster of machines
+    * aware of data-volumes and what host they live on
+    * can move data-volumes alongside containers as a single, atomic unit
+    * provides a REST API that can be used from any language or stack
+
+  * Image of Flocker architecture
+
+  * Backend storage drivers
+    * supports a range of different backend storage drivers
+    * choose the right backend dependent upon your use-case
+    * Amazon EBS and OpenStack Cinder for network attached block devices
+    * EMC scale.io and xtrem.io support
+    * Hedvig, Converge.io and many others
+
+  * Image of Flocker universe
+
+  * Docker Plugin
+    * plugins mechanism for Docker allows external processes to handle volumes
+    * Docker --volume-driver syntax means Docker will call out to Flocker to handle a volume
+    * when a container starts with a Flocker volume - Docker will block until the volume is mounted by Flocker
+  
+  * Image of Docker plugin
+
+  * Demo of multi-host
+
+* Orchestration
+
   * Hide the hardware
     * you have a 'pool of compute resources'
     * let's hide this away behind an orchestration tool
     * we tell the orchestrator what we want to happen
     * it knows how to get things into that state
     * think about your 'desired state' not individual computers
-
-* Orchestration
 
   * Scheduling
     * when you say 'run this process' something needs to decide where
@@ -83,47 +116,16 @@
     * they will 're-schedule' the process(es) onto a healthy machine
     * this is an automated version of 'drive to the data-centre at 3am'
 
-* State
 
-  * Don't touch that disk!
-    * the moment you write anything to disk you make the server a pet
-    * that goes against 'cattle not pets' and orchestration tools can just 're-schedule'
-    * this is why 12-factor applications are stateless - because state is hard
+  * Demo
 
-  * 
+* Questions
 
-* Storage in Docker
+  * How do you deploy the code for bio-informatics pipelines?
+  * Does this code run across more than one machine?
+  * Where do you get the data from to process?
+  * Where do you save the results of the pipeline?
+  * Do intermediate processes need to use lookup tables or other databases?
+  * summary: can we use the same tools that we use in DevOps for processing pipelines?
 
-  * Docker volumes
-    * a volume is a bind-mounted directory from the host to inside a container
-    * this means the data written to it will persist on the host
-    * simple demo of docker volumes
-
-  * Multi-host volumes
-    * standard Docker volumes are single-host aware
-
-* Stateful Containers in Data Pipelines
-
-  * 
-  * Examples of stateful containers
-    * A data processing pipeline that wants to read input or write output from/to a database
-    * An intermediate process that needs to use a disk based cache or lookup table
-    
-
-  * Example image
-
-https://docs.google.com/presentation/d/1OJwdP26Wi_jH-C9arZFCei2t6FjfWsNnVTSyXLELbNk/edit#slide=id.gd1ca347af_1_23
-
-* Docker and Storage
-
-  * An overview
-    * There are 2 types of storage in the world of Docker
-    * The 'Docker Storage Driver' handles storage for Docker images
-    * 
-
-
-
-* managing complexity
-  * orchestration tools
-    * 
   

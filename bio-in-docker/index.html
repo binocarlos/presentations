@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Docker and storage across a cluster</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <style type="text/css">
+        .slides section img{
+            max-height:450px;
+        }
+
+        .red{
+          color:#990000 !important;
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h5>Docker and storage across a cluster</h5>
+          <p>
+          <pre><code>
+
+  $ docker run \
+    -v genomedata:/data \
+    --volume-driver flocker \
+    bio-data-mapper:1.2.3
+
+          </code></pre>
+          </p>
+
+          <p>
+          @kai_davenport - github.com/binocarlos<br />
+          clusterhq.com
+          </p>
+        </section>
+
+        <!-- microservices -->
+
+        <section>
+            <h5>Why Containers? - <span class="red">Isolate</span></h5>
+            <ul>
+                <li class="fragment">bio-informatics pipelines will combine many different tools</li>
+                <li class="fragment">each tool may be totally different languages/versions</li>
+                <li class="fragment">trying to install more than one package onto one machine is messy</li>
+                <li class="fragment">each container has it's own Mount Namespace (think 'isolated virtual disk')</li>
+                <li class="fragment">this means each container (thinks it) has a brand new machine to install software onto</li>
+            </ul>
+
+        </section>
+
+        <!-- databases and containers -->
+
+        <section>
+            <h5>Why Containers? - <span class="red">Expediate</span></h5>
+            <ul>
+                <li class="fragment">pre-built immutable binary images (a.k.a. the Dockerhub) - 'docker pull' and done</li>
+                <li class="fragment">VM's also have this (for example AMI images for EC2 instances)</li>
+                <li class="fragment">the time to start a container is an order of magnitude quicker than a VM</li>
+                <li class="fragment">because the kernel is shared between containers</li>
+                <li class="fragment">VM startup time 30secs to several minutes</li>
+
+                <li class="fragment">container startup time 10ms to 10secs</li>
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Why Containers? - <span class="red">Compact</span></h5>
+            <ul>
+                <li class="fragment">you can put many more containers onto a bare metal server than VMs</li>
+                <li class="fragment">because you are not duplicating the entire OS kernel for each container</li>
+                <li class="fragment">CGroups allow you to limit the resources used by a single container (CPU, Memory etc)</li>
+                <li class="fragment">this allows fine grained control over "how much to fill up the boxes"</li>
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Docker Storage - <span class="red">Images</span></h5>
+            <ul>
+                <li class="fragment">when you build a Docker image - it uses the 'graph driver' to save each layer</li>
+                <li class="fragment">a layer is the result of running a command on a previous layer</li>
+                <li class="fragment">there are various 'graph drivers' - most use 'copy-on-write'</li>
+                <li class="fragment">aufs, devicemapper, overlayfs are examples</li>
+                <li class="fragment">whilst important - this is not the type of storage we are focusing on today</li>
+                
+            </ul>
+
+        </section>
+
+        
+
+        <section>
+            <h5>Docker Storage - <span class="red">Volumes</span></h5>
+            <ul>
+                <li class="fragment">when a container runs (from an image) - it has it's own 'mount namespace'</li>
+                <li class="fragment">this means that filesystem operations are isolated inside the container</li>
+                <li class="fragment">but what if the container needs to read and write to disk and the container restarts?</li>
+                <li class="fragment">a Docker volume is a bind-mounted directory from the host into a container</li>
+                <li class="fragment">this means data written to that directory persists even when the container stops</li>
+
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Docker Storage - <span class="red">Dockerfile without volume</span></h5>
+            <p>
+          <pre><code>
+  FROM ubuntu:14.04
+  RUN apt-get update
+  RUN apt-get install -y nodejs
+  ADD . /app
+  ENTRYPOINT ["node", "/app/index.js"]
+          </code></pre>
+          </p>
+
+        </section>
+
+        <section>
+            <h5>Docker Storage - <span class="red">Dockerfile with volume</span></h5>
+          <p>
+          <pre><code>
+  FROM ubuntu:14.04
+  RUN apt-get update
+  RUN apt-get install -y nodejs
+  ADD . /app
+  VOLUME /data
+  ENTRYPOINT ["node", "/app/index.js"]
+          </code></pre>
+          </p>
+
+        </section>
+
+        <section>
+            <h5>Docker Storage - <span class="red">docker run</span></h5>
+          <p>
+          <pre><code>
+  $ docker build -t myimage .
+  $ docker run \
+    -v /appdata:/data \
+    myimage
+          </code></pre>
+          </p>
+
+        </section>
+
+        <section>
+            <h5>Docker Storage - <span class="red">Demo</span></h5>
+            <ul>
+                <li class="fragment">no volume - the state is not there the next time</li>
+                <li class="fragment">a volume - the state persists on the host</li>
+                <li class="fragment">multi-host volume - can we persist across hosts?</li>
+                <li class="fragment">yikes, this needs some thought</li>
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Servers - <span class="red">Naming servers</span></h5>
+            <ul>
+                <li class="fragment">We just entered the world of 'multi-host' - lets talk about servers</li>
+                <li class="fragment">I used to name my servers</li>
+                <li class="fragment">if one went away - it really mattered</li>
+                <li class="fragment">each one was lovingly configured and had a specific set of jobs</li>
+                <li class="fragment">I treated them like pets</li>
+                
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Servers - <span class="red">Not naming servers</span></h5>
+            <ul>
+                <li class="fragment">it turns out that computers are not like animals</li>
+                <li class="fragment">they do not repay human kindess with affection (they fail randomly)</li>
+                <li class="fragment">each server should be auto-configured and interchangeable</li>
+                <li class="fragment">they should be treated like cattle</li>
+                
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Servers - <span class="red">Don't touch that disk!</span></h5>
+            <ul>
+                <li class="fragment">the moment you write anything to disk you make the server a pet</li>
+                <li class="fragment">that is because no other server in the cluster has that data on it's disk</li>
+                <li class="fragment">to truely treat servers like cattle - we need 'portable data volumes'</li>
+                
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Flocker - <span class="red">Volume orchestration</span></h5>
+            <ul>
+                <li class="fragment">storage orchestration tool for a cluster of machines</li>
+                <li class="fragment">aware of data-volumes and what host they live on</li>
+                <li class="fragment">can move data-volumes alongside containers as a single, atomic unit</li>
+                <li class="fragment">provides a REST API that can be used from any language or stack</li>
+                
+            </ul>
+
+        </section>
+
+        <section data-background="images/talk-images.022.png">
+
+        </section>
+
+        <section data-background="images/talk-images.023.png">
+
+        </section>
+
+        <section data-background="images/talk-images.024.png">
+
+        </section>
+
+        <section>
+            <h5>Flocker - <span class="red">Backend storage drivers</span></h5>
+            <ul>
+                <li class="fragment">supports a range of different backend storage drivers</li>
+                <li class="fragment">choose the right backend dependent upon your use-case</li>
+                <li class="fragment">Amazon EBS and OpenStack Cinder for network attached block devices</li>
+                <li class="fragment">EMC scale.io and xtrem.io support</li>
+                <li class="fragment">Hedvig, Converge.io and many others</li>
+                
+            </ul>
+
+        </section>
+
+        <section data-background="images/talk-images.017.png">
+
+        </section>
+
+        <section>
+            <h5>Flocker - <span class="red">Docker Plugin</span></h5>
+            <ul>
+                <li class="fragment">plugins mechanism for Docker allows external processes to handle volumes</li>
+                <li class="fragment">Docker --volume-driver syntax means Docker will call out to Flocker to handle a volume</li>
+                <li class="fragment">when a container starts with a Flocker volume - Docker will block until the volume is mounted by Flocker</li>
+                
+            </ul>
+
+        </section>
+
+        <section data-background="images/diagramimages2.002.jpg">
+
+        </section>
+
+        <section>
+            <h5>Flocker - <span class="red">Plugin Demo</span></h5>
+            <ul>
+                <li class="fragment">multi-host volume using the Flocker volume driver</li>
+                
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Orchestration - <span class="red">Hide the hardware</span></h5>
+            <ul>
+                <li class="fragment">you have a 'pool of compute resources'</li>
+                <li class="fragment">let's hide this away behind an orchestration tool</li>
+                <li class="fragment">we tell the orchestrator what we want to happen</li>
+                <li class="fragment">it knows how to get things into that state</li>
+                <li class="fragment">think about your 'desired state' not individual computers</li>
+                
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Orchestration - <span class="red">Scheduling</span></h5>
+            <ul>
+                <li class="fragment">when you say 'run this process' something needs to decide where</li>
+                <li class="fragment">schedulers needs to know what else is running on the cluster</li>
+                <li class="fragment">they then play a game of Tetris to find the best place</li>
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Orchestration - <span class="red">Monitoring</span></h5>
+            <ul>
+                <li class="fragment">orchestration tools can detect when a process dies or a host fails</li>
+                <li class="fragment">they will 're-schedule' the process(es) onto a healthy machine</li>
+                <li class="fragment">this is an automated version of 'drive to the data-centre at 3am'</li>
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Orchestration - <span class="red">Demo</span></h5>
+            <ul>
+                <li class="fragment">let's demonstrate a popular orchestration tool (Mesos & Marathon)</li>
+                <li class="fragment">using Flocker and the EBS backend</li>
+                <li class="fragment">we will see automated recovery</li>
+            </ul>
+
+        </section>
+
+        <section>
+            <h5>Questions (for you)...</h5>
+            <ul>
+                <li class="fragment">how do you deploy the code for bio-informatics pipelines?</li>
+                <li class="fragment">does this code run across more than one machine?</li>
+                <li class="fragment">where do you get the source data from?</li>
+                <li class="fragment">where do you save the results of the pipeline?</li>
+                <li class="fragment">do intermediate processes need to use lookup tables or other databases?</li>
+                <li class="fragment">can we use the same tools that we use in DevOps for processing pipelines?</li>
+            </ul>
+
+        </section>
+
+
+
+
+        <section>
+          <h3>Docker and storage across a cluster</h3>
+          <p>
+          <pre><code>
+// the end
+          </code></pre>
+          </p>
+
+          <p>
+          @kai_davenport - github.com/binocarlos<br />
+          clusterhq.com
+          </p>
+
+          <p>
+          p.s. this presentation was running in Docker :-)
+          </p>
+        </section>
+        
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        //center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
