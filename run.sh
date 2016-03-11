@@ -10,6 +10,7 @@ cmd-present(){
     -p 80:8000 \
     --name presenter \
     -v /srv/projects/presentations/$presentation/index.html:/app/reveal.js/index.html \
+    -v /srv/projects/presentations/$presentation/toptrumps.html:/app/reveal.js/toptrumps.html \
     -v /srv/projects/presentations/$presentation:/app/reveal.js/slides \
     -v /srv/projects/presentations/$presentation/images:/app/reveal.js/images \
     binocarlos/presentations

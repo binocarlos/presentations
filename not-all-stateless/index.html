@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>My Microservices are not all stateless!</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <style type="text/css">
+        .red{
+          color:#990000 !important;
+        }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides" style="margin-left:auto;margin-right:auto;">
+        <section>
+          <h4>My Microservices are not all stateless!</h5>
+          <p>
+          
+          <pre><code>
+  apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: pv0003
+    spec:
+      capacity:
+        storage: 5Gi
+      accessModes:
+        - ReadWriteOnce
+      persistentVolumeReclaimPolicy: Recycle
+      nfs:
+        path: /tmp
+        server: 172.17.0.2
+
+          </code></pre>
+          
+          </p>
+
+          <p>
+            @kai_davenport - github.com/binocarlos
+          </p>
+          <p>
+            ClusterHQ
+          </p>
+        </section>
+
+        <section>
+            <h5>Microservices</h5>
+            <img src="images/microservices.jpg" />
+
+        </section>
+
+        <section>
+            <h5>Microservices</h5>
+            <ul>
+                <li class="fragment">lots of processes</li>
+                <li class="fragment">communicate over the network</li>
+                <li class="fragment">different languages</li>
+                <li class="fragment">each service uses a specific data store</li>
+            </ul>
+        </section>
+
+
+        <section>
+            <h5>12 factor apps</h5>
+            <img src="images/12factor.jpg" />
+
+        </section>
+
+         <section>
+            <h5>12 factor apps</h5>
+            <ul>
+                <li class="fragment">the 'Heroku' way of running apps</li>
+                <li class="fragment">strictly 'stateless'</li>
+                <li class="fragment">let someone else deal with the state problem</li>
+                <li class="fragment">this leads to a fragmented deployment system</li>
+                <li class="fragment">
+                  
+                  <p>
+          
+          <pre><code>
+  
+  Stateless Apps   < ------------ >  Stateful Apps
+
+          </code></pre>
+          
+          </p>
+                </li>
+            </ul>
+            
+        </section>
+
+
+        <section>
+            <h5>lets talk about state, baby!</h5>
+            <img src="images/saltnpeppa.jpg" />
+
+        </section>
+
+        <section>
+            <h5>lets talk about state, baby!</h5>
+            <ul>
+                <li class="fragment">there is a party happening inside a container</li>
+                <li class="fragment">the stateful apps are not invited</li>
+                <li class="fragment">*most* apps have some kind of stateful part</li>
+                <li class="fragment">we need to unify our deployment system to include stateful apps too!</li>
+            </ul>
+        </section>
+
+        <section>
+            <h5>k8s</h5>
+            <img src="images/rescue.jpg" />
+
+        </section>
+
+        <section>
+            <h5>k8s to the rescue!</h5>
+            <ul>
+                <li class="fragment">k8s treats volumes as first class citizens</li>
+                <li class="fragment">it can *move* volumes around the cluster</li>
+                <li class="fragment">treat the container and the storage as a single, atomic unit</li>
+                <li class="fragment">unify your deployment system and include all of your services!</li>
+            </ul>
+        </section>
+
+
+        <section>
+            <h5>pump up the volume</h5>
+            <img src="images/volume.gif" />
+
+        </section>
+
+        <section>
+            <h5>pump up the volume</h5>
+            <img src="images/volume.gif" />
+
+        </section>
+
+        <section>
+            <h5>pump up the volume</h5>
+            <img src="images/volume.gif" />
+
+        </section>
+
+        <section>
+            <h5>dance!</h5>
+            <img src="images/containerparty.jpg" />
+
+        </section>
+
+        <section>
+            <h5>dance!</h5>
+            <img src="images/containerparty.jpg" />
+
+        </section>
+
+        <section>
+            <h5>Persistent Volumes</h5>
+            <ul>
+                <li class="fragment">some storage resource that is known to k8s</li>
+                <li class="fragment">lives outside the lifecycle of any pod</li>
+                <li class="fragment">abstracts the implementation of specific storage providers</li>
+            </ul>
+        </section>
+
+        <section>
+            <h5>Persistent Volumes</h5>
+            <pre><code>
+  apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: pv0003
+    spec:
+      capacity:
+        storage: 5Gi
+      accessModes:
+        - ReadWriteOnce
+      persistentVolumeReclaimPolicy: Recycle
+      nfs:
+        path: /tmp
+        server: 172.17.0.2
+
+          </code></pre>
+        </section>
+
+        <section>
+            <h5>Persistent Volume Claim</h5>
+            <ul>
+                <li class="fragment">the linkage between a Persistent Volume and a pod</li>
+                <li class="fragment">k8s will automatically pick a volume meeting the requirements</li>
+                <li class="fragment">the volume will remain alongside the pod whilst the claim exists</li>
+                <li class="fragment">if the pod moves whilst the claim still exists - k8s will move the volume</li>
+            </ul>
+        </section>
+
+        <section>
+            <h5>Persistent Volume Claim</h5>
+            <pre><code>
+  kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: myclaim
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 8Gi
+
+          </code></pre>
+        </section>
+
+        <section>
+            <h5>Persistent Volume Claim: pod</h5>
+            <pre><code>
+  kind: Pod
+    apiVersion: v1
+    metadata:
+      name: mypod
+    spec:
+      containers:
+        - name: myfrontend
+          image: dockerfile/nginx
+          volumeMounts:
+          - mountPath: "/var/www/html"
+            name: mypd
+      volumes:
+        - name: mypd
+          persistentVolumeClaim:
+            claimName: myclaim
+
+          </code></pre>
+        </section>
+
+        <section>
+            <h5>Lifecycle of a volume</h5>
+            <ul>
+                <li class="fragment">1. the administrator creates a volume resource</li>
+                <li class="fragment">2. create a PersistentVolume manifest to tell k8s about it</li>
+                <li class="fragment">3. run a pod with a PersistentVolumeClaim</li>
+                <li class="fragment">4. k8s will match the volume to the claim and mount it for the pod</li>
+                <li class="fragment">5. user deletes the PersistentVolumeClaim (or pod)</li>
+                <li class="fragment">6. the PersistentVolume is now 'released'</li>
+                <li class="fragment">7. it can now be 'reclaimed' or 'deleted'</li>
+            </ul>
+        </section>
+
+
+        <section>
+            <h5>Persistent Volume Provisioning</h5>
+            <ul>
+                <li class="fragment">experimental feature</li>
+                <li class="fragment">automatically creates volumes ready to be 'claimed'</li>
+                <li class="fragment">this work flow is the reverse of before:</li>
+                <li class="fragment">1. run a pod with a PersistentVolumeClaim</li>
+                <li class="fragment">2. k8s automatically provisions a volume</li>
+                <li class="fragment">3. k8s will match the volume to the claim and mount it for the pod</li>
+            </ul>
+        </section>
+
+
+
+        <section>
+            <h5>Access Modes</h5>
+            <ul>
+                <li class="fragment">depends on the type of volume you have</li>
+                <li class="fragment">ReadWriteOnce - read and write but attached to a single node</li>
+                <li class="fragment">ReadOnlyMany - read only but attached to multiple nodes</li>
+                <li class="fragment">ReadWriteMany - read/write and attached to multiple nodes</li>
+            </ul>
+        </section>
+        
+
+        <section>
+            <h5>Top Trumps Time!</h5>
+            <a href="toptrumps.html">Play</a>
+
+        </section>
+
+
+        <section>
+            <h5>Flocker</h5>
+            
+            <img src="images/flockerlogo.png" style="border:none;background-color:#ccc;" width="50%" />
+
+        </section>
+
+
+
+        <section>
+            <h5>Flocker</h5>
+            
+            <ul>
+                <li class="fragment">distributed volume orchestration</li>
+                <li class="fragment">supports many types of storage</li>
+                <li class="fragment">has a REST api</li>
+                <li class="fragment">has a Docker *and* k8s volume plugin</li>
+            </ul>
+        </section>
+
+
+        <section>
+            <h5>Flocker storage support</h5>
+            
+            <ul>
+                <li class="fragment">AWS Elastic Block Storage (EBS)</li>
+                <li class="fragment">EMC ScaleIO, XtremeIO, VMAX</li>
+                <li class="fragment">VMware vSphere and vSan</li>
+                <li class="fragment">NetApp OnTap</li>
+                <li class="fragment">Dell Storage SC Series</li>
+                <li class="fragment">HPE 3PAR StoreServ and StoreVirtual (with OpenStack only)</li>
+                <li class="fragment">Huawei OceanStor</li>
+                <li class="fragment">Hedvig</li>
+                <li class="fragment">NexentaEdge</li>
+                <li class="fragment">ConvergeIO</li>
+                <li class="fragment">Saratoga Speed</li>
+                <li class="fragment">Ceph (Coming Soon)</li>
+                <li class="fragment">Google Persistent Disk (Coming Soon)</li>
+            </ul>
+        </section>
+
+
+        <section data-background="images/talk-images.017.png">
+          
+        </section>
+
+        <section>
+            <h5>Use Cases</h5>
+            
+            <ul>
+                <li class="fragment">rebalance cluster</li>
+                <li class="fragment">drain a node</li>
+                <li class="fragment">HA when node fails</li>
+                <li class="fragment">speed up distributed database recovery</li>
+            </ul>
+        </section>
+
+        <section data-background="images/talk-images.005.png" >
+        </section>
+
+        <section data-background="images/talk-images.006.png" >
+        </section>
+
+        <section data-background="images/talk-images.007.png" >
+        </section>
+
+        <section data-background="images/talk-images.008.png" >
+        </section>
+
+        <section data-background="images/talk-images.009.png" >
+        </section>
+
+        <section data-background="images/talk-images.010.png" >
+        </section>
+
+        <section data-background="images/talk-images.011.png" >
+        </section>
+
+        <section data-background="images/talk-images.012.png" >
+        </section>
+
+        <section data-background="images/talk-images.013.png" >
+        </section>
+
+        <section data-background="images/talk-images.014.png" >
+        </section>
+
+        <section data-background="images/talk-images.015.png" >
+        </section>
+
+        <section data-background="images/talk-images.016.png" >
+        </section>
+
+
+
+        <section data-background="images/recovery.png" >
+        </section>
+
+
+        <section>
+            <h5>Future Developments</h5>
+            
+            <ul>
+                <li class="fragment">Volume Hub</li>
+                <li class="fragment">dvol</li>
+                <li class="fragment">Flocker</li>
+                <li class="fragment">push/pull</li>
+            </ul>
+        </section>
+
+
+        <section>
+            <h5>Future Developments</h5>
+            
+            <pre><code>
+  
+         dvol  <-------->  Volume Hub  <-------->  Flocker
+
+          </code></pre>
+        </section>
+
+
+
+        <section>
+          <h4>My Microservices are not all stateless!</h5>
+          <hr />
+          <p>
+          <pre><code>
+// any questions?
+          </code></pre>
+          </p>
+          <hr />
+          <p>
+          @kai_davenport - github.com/binocarlos<br /><br />
+          slides by Ivy Davenport - github.com/kitto1
+          </p>
+          <hr />
+          <p>
+          p.s. this presentation was running in Docker :-)
+          </p>
+        </section>
+        
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        width: 960,
+        height: 700,
+        minScale: .5,
+        maxScale: 1,
+
+        //center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
